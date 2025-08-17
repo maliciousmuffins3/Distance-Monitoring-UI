@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -9,11 +10,45 @@ import {
   Legend,
 } from "recharts";
 
+// Interval in milliseconds
+const UPDATE_INTERVAL = 2000; // 2 seconds
+
 export default function SensorChart({ data, yDomains }) {
+  const [displayData, setDisplayData] = useState([]);
+
+  // Update chart data at fixed interval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const sanitizedData = data.map((d) => ({
+        ...d,
+        distance: Number(d.distance.toFixed(2)),
+        level: Number(d.level.toFixed(2)),
+        speed: Number(d.speed.toFixed(2)),
+      }));
+
+      // Only update state if data actually changed
+      setDisplayData((prevData) => {
+        const isEqual =
+          prevData.length === sanitizedData.length &&
+          prevData.every(
+            (p, i) =>
+              p.distance === sanitizedData[i].distance &&
+              p.level === sanitizedData[i].level &&
+              p.speed === sanitizedData[i].speed &&
+              p.t === sanitizedData[i].t
+          );
+
+        return isEqual ? prevData : sanitizedData;
+      });
+    }, UPDATE_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [data]);
+
   return (
     <div style={{ height: "400px", width: "100%" }}>
       <ResponsiveContainer>
-        <LineChart data={data}>
+        <LineChart data={displayData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#444" />
           <XAxis
             dataKey="t"
@@ -25,8 +60,8 @@ export default function SensorChart({ data, yDomains }) {
           <YAxis
             yAxisId="left"
             stroke="#3b82f6"
-            domain={yDomains.distance}
-            allowDataOverflow
+            domain={[0, 7.208]} // fixed domain for distance
+            tickFormatter={(v) => v.toFixed(2)}
           />
 
           {/* Level axis (right) */}
@@ -34,14 +69,15 @@ export default function SensorChart({ data, yDomains }) {
             yAxisId="right"
             orientation="right"
             stroke="#10b981"
-            domain={yDomains.level}
-            allowDataOverflow
+            domain={[0, yDomains.level[1]]}
+            tickFormatter={(v) => v.toFixed(2)}
           />
 
-          {/* Speed axis (hidden, bottom) */}
-          <YAxis yAxisId="speed" hide={true} domain={["auto", "auto"]} />
+          {/* Speed axis (hidden) */}
+          <YAxis yAxisId="speed" hide domain={["auto", "auto"]} />
 
           <Tooltip
+            formatter={(value) => value.toFixed(2)}
             contentStyle={{
               backgroundColor: "#1e293b",
               borderRadius: "8px",
