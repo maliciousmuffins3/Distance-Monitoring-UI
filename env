@@ -1,0 +1,8 @@
+VITE_FIREBASE_API_KEY=AIzaSyAUhqd59WW0KGSqbpV55e1M07aDdn3kgsM
+VITE_FIREBASE_AUTH_DOMAIN=distance-monitoring-5bde4.firebaseapp.com
+VITE_FIREBASE_DATABASE_URL=https://distance-monitoring-5bde4-default-rtdb.asia-southeast1.firebasedatabase.app
+VITE_FIREBASE_PROJECT_ID=distance-monitoring-5bde4
+VITE_FIREBASE_STORAGE_BUCKET=distance-monitoring-5bde4.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=1071970439663
+VITE_FIREBASE_APP_ID=1:1071970439663:web:b1abf7e57726f9bcbe661a
+VITE_FIREBASE_MEASUREMENT_ID=G-X9TKK5NMQH
