@@ -118,7 +118,7 @@ export default function App() {
         }}
       >
         <div>
-          <h1 style={{ margin: 0 }}>💧 Realtime Water Sensor</h1>
+          <h1 style={{ margin: 0 }}>💧 Realtime Water Level Monitor</h1>
           <div style={{ fontSize: 13, color: "#9fb0c9" }}>
             Firebase RTDB Path: <code>{SENSOR_PATH}</code>
           </div>
